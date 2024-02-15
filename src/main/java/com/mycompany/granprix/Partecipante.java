@@ -5,13 +5,17 @@ import java.util.*;
 
 public class Partecipante extends Auto {
 
-	private arrayList<Auto> myAuto;
+	private Auto myAuto;
 	private String nome;
 	private String cognome;
-	private int eta;
+	private int numero;
 
-	public Partecipante() {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+	public Partecipante(String nome, String cognome, int numero, Auto auto) {
+	    this.nome = nome;
+            this.cognome = cognome;
+            this.numero = numero;
+            this.myAuto = auto;
+ 
 	}
 
 }

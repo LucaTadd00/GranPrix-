@@ -7,12 +7,16 @@ public class Auto {
 
 	private int velocita;
 	private String marca;
-	private string modello;
+	private String modello;
 	private Partecipante proprietario;
-	private String colore;
+	private int numero;
 
 	public Auto() {
 		throw new UnsupportedOperationException("The method is not implemented yet.");
 	}
+        
+        public int getNumero() {
+            return this.numero;
+        }
 
 }

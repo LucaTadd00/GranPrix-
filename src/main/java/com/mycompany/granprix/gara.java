@@ -3,20 +3,28 @@ package GranP.GranPrix;
 import java.io.*;
 import java.util.*;
 
-public class gara {
+public class gara implements Runnable{
 
 	private Circuito circuito;
 	private int maxPits;
 	private int nGiri;
-	private arrayList<Auto> auto;
-	private arrayList<Partecipante> partecipanti;
+	private ArrayList<Auto> auto;
+	private ArrayList<Partecipante> partecipanti;
 
-	public gara() {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+	public gara(Circuito circuito, int maxPits, int nGiri, ArrayList<Auto> auto, ArrayList<Partecipante> partecipanti) {
+		this.circuito = circuito;
+                this.maxPits = maxPits;
+                this.nGiri = nGiri;
+                this.auto = auto;
+                this.partecipanti = partecipanti;
 	}
 
-	public void newMethod() {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+	public void run() {
+		partenza();
 	}
+        
+        public void partenza() {
+        
+        }
 
 }

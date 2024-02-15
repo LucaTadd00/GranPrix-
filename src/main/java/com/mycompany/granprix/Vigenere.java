@@ -1,8 +1,11 @@
+package GranP.GranPrix;
+
 public class Vigenere implements Runnable{
 
     private int ir;
-    privatefc
+    private int ic;
     private int fc;
+    private int fr;
     private Matrice matrix;
 
     /**

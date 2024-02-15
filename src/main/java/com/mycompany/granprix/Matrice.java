@@ -1,3 +1,5 @@
+package GranP.GranPrix;
+
 public class Matrice {
 
     char mv[][];
