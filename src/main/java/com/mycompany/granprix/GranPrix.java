@@ -1,4 +1,4 @@
-package GranP.GranPrix;
+package com.mycompany.granprix;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -19,6 +19,11 @@ Lettore lettore = new Lettore("output.csv");
 Scrittore scrittore = new Scrittore("output.csv");
 ArrayList<Auto> auto = new ArrayList<>();
 ArrayList<Partecipante> partecipanti = new ArrayList<>();
+Circuito circuito = new Circuito();
+int maxPits = 0;
+int nGiri = 0;
+matrixBuilder();
+
 
        System.out.println("Gran Prix Login!");
         System.out.println("inserisci l'username : ");
@@ -31,15 +36,70 @@ ArrayList<Partecipante> partecipanti = new ArrayList<>();
         scrittore.scrivi(userName, criptedPass);
         
         System.out.println("Login riuscito! ora le tue credenziali sono salvate nel file 'output.csv'.");
+        User player = new User(userName, password);
         
-        System.out.println("username : " + userName);
-        System.out.println("password criptata: " + criptedPass);
+        int choise1 = 0;  
+          
+         System.out.println("ora scegli un opzione : "); 
+         System.out.println("1. crea un gran prix"); 
+         System.out.println("2. stampa i risultati della gara piu recente"); 
+         System.out.println("3. effettua il logout"); 
+                 
+         choise1 = s.nextInt();
+         s.nextLine();
+  
+        try {     
+        switch(choise1) {
+  case 1:
+
+      System.out.println("Iniziamo con la creazione! ora inserisci le specifiche del GranPrix");
+      System.out.println("inserisci il nome del circuito");
+      String nCircuito = s.nextLine();
+      System.out.println("inserisci la lunghezza del circuito");
+      double lCircuito = s.nextDouble();
+      s.nextLine();
+      System.out.println("inserisci la nazione in cui risiede il circuito");
+      String naCircuito = s.nextLine();
+      
+      circuito = new Circuito(naCircuito, lCircuito, nCircuito);
+         
+      System.out.println("inserisci il numero massimo di pit stop");
+      maxPits = s.nextInt();
+      s.nextLine();
+      System.out.println("inserisci il numero di giri");
+      nGiri = s.nextInt();
+      s.nextLine();
+      
+    break;
+  case 2:
+
+    break;
+  case 3:
+      System.out.println("disconnessione in corso...");
+      try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace(); }
+      break;
+      default:
+    System.out.println("scelta inesistente o non corretta"); 
+}
+    } catch (InputMismatchException e) { 
+    System.err.println("Errore: Input non numerico. Assicurati di inserire un numero valido.");
+    choise1 = 0;
+    s.nextLine();
+    }    
+
       int choise = 8;
+int remember = 0;
+if(choise1 == 1) {
       while(choise != 7) {  
           
-         System.out.println("ora scegli un opzione : ");  
-         System.out.println("1. inserisci un pilota al Gran Prix"); 
-         System.out.println("2. aggiungi un auto al Gran Prix"); 
+         System.out.println("ora scegli un opzione : "); 
+         System.out.println("1. aggiungi un pilota e la sua auto al granprix al Gran Prix"); 
+         System.out.println("2. inizia la gara"); 
+         System.out.println("2. inizia la gara"); 
+                 
          choise = s.nextInt();
          s.nextLine();
   
@@ -53,25 +113,40 @@ ArrayList<Partecipante> partecipanti = new ArrayList<>();
         System.out.println("inserisci il numero del partecipante :");
         int numberP = s.nextInt();
         s.nextLine();
-        System.out.println("inserisci il numero dell auto con il quale correra il partecipante :");
-        int nAuto = s.nextInt();
-        s.nextLine();
-         for (int i = 0; i < auto.size(); i++) { 
-         if (nAuto == auto.get(i).getNumero()) {
-         partecipanti.add(new Partecipante(nameP, surnameP, numberP, auto.get(i)));
-         }
-         System.out.println("ora inserisci i valori dell'auto del partecipante :");
-         System.out.println("inserisci il nome del partecipante (pilota) :");
-         String nameP = s.nextLine();
-         System.out.println("inserisci il nome del partecipante (pilota) :");
-         String nameP = s.nextLine();
-         System.out.println("inserisci il nome del partecipante (pilota) :");
-         String nameP = s.nextLine();
-         }
+
+        partecipanti.add(new Partecipante(nameP, surnameP, numberP));
+
+        System.out.println("ora inserisci le specifiche dell'auto del partecipante :");
+        System.out.println("inserisci il modello dell'auto :");
+        String modello = s.nextLine();
+        System.out.println("inserisci la marca dell auto :");
+        String marca = s.nextLine();
+
+        auto.add(new Auto(modello, marca, numberP, partecipanti.get(remember)));
+        partecipanti.get(remember).setAuto(auto.get(remember));
+
+         
     break;
   case 2:
+      
+
+      GestoreGara gestore = new GestoreGara("paolo bonolis");
+      Gara granPrix = new Gara(circuito, maxPits, nGiri, auto, partecipanti, gestore);
+      gestore.setGara(granPrix);
+            
+      gestore.start();
+      granPrix.start();
+      
+      
 
     break;
+  case 3:
+      System.out.println("uscita in corso..."); 
+    try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace(); }
+      break;
       default:
     System.out.println("scelta inesistente o non corretta"); 
 }
@@ -81,7 +156,9 @@ ArrayList<Partecipante> partecipanti = new ArrayList<>();
     s.nextLine();
     }
 }
+}
     }
+
     
     
     

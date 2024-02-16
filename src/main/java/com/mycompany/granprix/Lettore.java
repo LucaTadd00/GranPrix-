@@ -1,4 +1,4 @@
-package GranP.GranPrix;
+package com.mycompany.granprix;
 
 import java.io.FileReader;
 import java.io.IOException;

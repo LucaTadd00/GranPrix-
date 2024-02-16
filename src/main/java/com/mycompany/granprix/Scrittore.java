@@ -1,4 +1,4 @@
-package GranP.GranPrix;
+package com.mycompany.granprix;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

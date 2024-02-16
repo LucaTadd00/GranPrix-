@@ -1,4 +1,4 @@
-package GranP.GranPrix;
+package com.mycompany.granprix;
 
 public class Matrice {
 
