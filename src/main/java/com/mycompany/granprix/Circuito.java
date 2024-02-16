@@ -1,4 +1,4 @@
-package GranP.GranPrix;
+package com.mycompany.granprix;
 
 import java.io.*;
 import java.util.*;
@@ -7,10 +7,22 @@ public class Circuito {
 
 	private String nazione;
 	private double lunghezza;
-	private int newField;
+	private String nome;
 
-	public Circuito() {
-		throw new UnsupportedOperationException("The method is not implemented yet.");
+	public Circuito(String nazione, double lunghezza, String nome) {
+		this.nazione = nazione;
+                this.lunghezza = lunghezza;
+                this.nome = nome;
 	}
+        
+        public Circuito() {
+		this.nazione = "";
+                this.lunghezza = 0;
+                this.nome = "";
+	}
+        
+        public double getLungezza() {
+        return lunghezza;
+        }
 
 }
