@@ -20,24 +20,39 @@ public class Gara extends Thread {
                 this.auto = auto;
                 this.partecipanti = partecipanti;
                 this.gestore = gestore;
-    this.classifica.add(auto.get(0));
+                this.classifica = new ArrayList<Auto>();
 	}
         
+        @Override
         public void run() {
-        for (int i = 1; i < auto.size(); i++) {
+        int norun = 0;   
+            
+        for (int i = 0; i < auto.size(); i++) {
             auto.get(i).start();           
         }
         
         
-         while(classifica.size() != auto.size() + 1) {
-            for(int i = 0; i > auto.size(); i++)
+        
+        
+         while(classifica.size() != auto.size() - norun) {
+             
+          for (int i = 0; i < auto.size(); i++) {
+            if (auto.get(i).getDamage() == true)  {
+            norun = norun + 1;
+            }           
+        }
+            for(int i = 0; i < auto.size(); i++)
               if(auto.get(i).getRunning() == false && auto.get(i).getSaved() == false) {
                  classifica.add(auto.get(i));
                  auto.get(i).setSaved(true);
                         
               }
+         for (int i = 0; i < auto.size(); i++) { 
+            if (auto.get(i).getDamage() == true)  {
+            classifica.add(auto.get(i));
+            auto.get(i).setSaved(true);
+            } }           
         }
-         classifica.remove(auto.get(0));
         
         for (int i = 0; i < auto.size(); i++) {
         try{
@@ -47,8 +62,8 @@ public class Gara extends Thread {
         } }
         System.out.println("GARA CONCLUSA");
         
-        for (int i = 1; i < auto.size(); i++) {
-        classifica.get(i).Stampa(i);
+        for (int i = 0; i < classifica.size(); i++) {
+        System.out.println(classifica.get(i).Stampa(i));
         }
         
         }
@@ -67,6 +82,10 @@ public class Gara extends Thread {
         
         public GestoreGara getGestore() {
         return gestore;
+        }
+        
+        public int getMaxsPits() {
+        return maxPits;
         }
         
         }

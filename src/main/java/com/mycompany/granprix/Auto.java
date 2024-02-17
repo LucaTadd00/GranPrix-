@@ -1,6 +1,7 @@
 package com.mycompany.granprix;
 
 import java.io.*;
+import static java.lang.Thread.sleep;
 import java.util.*;
 
 public class Auto extends Thread{
@@ -9,7 +10,7 @@ public class Auto extends Thread{
 	private String modello;
 	private Partecipante proprietario;
 	private int numero;
-        private boolean running;
+        private boolean running = true;
         private boolean damage = false;
         private int truccata;
         private int percentuale = 0;
@@ -22,7 +23,7 @@ public class Auto extends Thread{
                 this.numero = numero;
                 this.proprietario = p;
                 Random random = new Random();
-                this.truccata = random.nextInt(3);
+                this.truccata = random.nextInt(10);
 	}
         
         public int getNumero() {
@@ -34,82 +35,108 @@ public class Auto extends Thread{
        }
         
         @Override
-        public void run(){
+public void run() {
     Random random = new Random();
-    int giri = 0;
+    int giri = 1;
     int ran = 0;
     boolean pit = false;
-    
+    int npit = 0;
+    int giroPit = 0;
     
     while (running) {
-        if(!damage) {
-            if(gara.getGestore().getSafetyCar() == false) {
-                if (giri >= 5) {
-                    ran = random.nextInt(10);
+        // Controlla se è necessario incrementare il numero di giri
+        if (percentuale >= gara.getCircuito().getLunghezza() * giri) {
+            giri++;
+        }
+        
+        // Controlla se l'auto è danneggiata
+        if (!damage) {
+            // Controlla se la safety car è in pista
+            if (!gara.getGestore().getSafetyCar()) {
+                // Controlla se è necessario fare un pit stop
+                if (giri >= giroPit + 2 && npit < gara.getMaxsPits()) {
+                    ran = random.nextInt(70);
                     if (ran == 1) { 
-                    pit = true;
+                        pit = true;
+                        npit++;
+                        giroPit = giri;
                     }                    
                 }
                 
-                if (!true) {
-           if(truccata == 1) {
+                // Simula il progresso dell'auto
+                    // Applica il vantaggio di velocità per le auto truccate
+            if(truccata == 1) {
               percentuale = percentuale + random.nextInt(50, 60);
            } else {
               percentuale = percentuale + random.nextInt(45, 55);
            }
-       
-      if (percentuale >= gara.getCircuito().getLungezza() * gara.getnGiri()) {
-        running = false;
-        
-      }
-
-      int danni = random.nextInt(250);
-      if (danni == 1) {
-        damage = true;
-      }
-      
-      if(truccata == 1) {
-              System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " sta alla percentuale: " 
-              + (int)(gara.getCircuito().getLungezza()*(percentuale/100.0f)) + "% del giro :" + gara.getnGiri() + " (l'auto è truccata)");
-           } else {
-              System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " sta alla percentuale: " 
-              + (int)(gara.getCircuito().getLungezza()*(percentuale/100.0f)) + "% del giro :" + gara.getnGiri());
-           }
-
-            } else {
-            System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " è sta facendo il PITSTOP");
+                    
+                    // Controlla se l'auto ha completato la gara
+                    if (percentuale >= gara.getCircuito().getLunghezza() * gara.getnGiri()) {
+                        running = false;
+                    }
+                    
+                    // Simula il danneggiamento dell'auto
+                    if (random.nextInt(500) == 1) {
+                        damage = true;
+                        running = false;
+                        System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " si è RITIRATO per problemi e ha percorso: " +
+            percentuale + " metri, di : " + gara.getCircuito().getLunghezza()*gara.getnGiri() + " del giro :" + giri + " e provoca un ingresso momentaneo della safety car...");
+                    }
+                    
+                    // Stampa lo stato dell'auto
+                    if (truccata == 1) {
+                        System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " ha percorso: " 
+                            + percentuale + " metri di : " + gara.getCircuito().getLunghezza()*gara.getnGiri() + ", del giro :" + giri + " (l'auto è truccata)");
+                    } else {
+                        System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " ha percorso: " 
+                            + percentuale + " metri di : " + gara.getCircuito().getLunghezza()*gara.getnGiri() + ", del giro :" + giri);
+                    }
+                }
+                     if (pit) {
+                // Simula il pit stop durante la safety car
+                int secpit = 0;
+                while (secpit < 10) {
+                    System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " è sta facendo il PITSTOP al giro: " + giri);
+                    secpit++;
+                    try {
+                        sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                pit = false;
             }
-        if(gara.getGestore().getSafetyCar() == true) {
-        percentuale = percentuale + 10;
-        System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " sta alla percentuale: " 
-              + (int)(gara.getCircuito().getLungezza()*(percentuale/100.0f)) + "% del giro :" + gara.getnGiri());
-        }
-        } 
-        if (damage) {
-        System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " si è ROTTA alla percentuale: " +
-                (int)(gara.getCircuito().getLungezza()*(percentuale/100.0f)) + "% del giro :" + gara.getnGiri() + "e provoca un ingresso momentaneo della safety car...");
         }
         
-        giri = giri + 1;
-        
-        
-     
-      try {
-        sleep(500);
-      } catch (InterruptedException e) {
-      }
-      
-      clearScreen();
+        // Simula il progresso dell'auto durante la safety car
+        if (gara.getGestore().getSafetyCar() && !damage) {
+            percentuale += 10;
+            System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " ha percorso: " 
+                            + percentuale + " metri, di : " + gara.getCircuito().getLunghezza()*gara.getnGiri() + ", del giro : " + giri + ", LA SAFETY CAR è IN PISTA");
         }
+        
+        // Stampa il danneggiamento dell'auto
+        
+        try {
+            sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+         clearScreen();
+    }
+    if(!running){
+    System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " ha concluso la sua gara");
+    }
+}
 
-    }
-    }
         
-    public static void clearScreen() {
-    System.out.print("\033[H\033[2J");
-    System.out.flush();
-    
-  }
+public static void clearScreen() {
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
+}
     
     public boolean getDamage() {
     return damage;
@@ -131,9 +158,17 @@ public class Auto extends Thread{
     return proprietario;
     }
     
+    public void setGara(Gara gara) {
+    this.gara = gara;
+    } 
+    
     public String Stampa(int i) {
-            return i + "° Posizione: pilota : " + proprietario.getPilota() + " con L'auto Numero: " + proprietario.getN();         
+        if (damage == false) {
+            return (i + 1) + "° Posizione: pilota : " + proprietario.getPilota() + " con L'auto Numero: " + proprietario.getN();         
+        } else {
+            return "pilota : " + proprietario.getPilota() + " con L'auto Numero: " + proprietario.getN() + " = RITIRATO";
         }
+}
 }
         
 
