@@ -21,8 +21,10 @@ public class Circuito {
                 this.nome = "";
 	}
         
-        public double getLungezza() {
+        public double getLunghezza() {
         return lunghezza;
         }
+
+    
 
 }

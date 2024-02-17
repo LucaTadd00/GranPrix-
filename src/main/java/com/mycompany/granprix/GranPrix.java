@@ -36,7 +36,6 @@ matrixBuilder();
         scrittore.scrivi(userName, criptedPass);
         
         System.out.println("Login riuscito! ora le tue credenziali sono salvate nel file 'output.csv'.");
-        User player = new User(userName, password);
         
         int choise1 = 0;  
           
@@ -98,7 +97,6 @@ if(choise1 == 1) {
          System.out.println("ora scegli un opzione : "); 
          System.out.println("1. aggiungi un pilota e la sua auto al granprix al Gran Prix"); 
          System.out.println("2. inizia la gara"); 
-         System.out.println("2. inizia la gara"); 
                  
          choise = s.nextInt();
          s.nextLine();
@@ -125,7 +123,7 @@ if(choise1 == 1) {
         auto.add(new Auto(modello, marca, numberP, partecipanti.get(remember)));
         partecipanti.get(remember).setAuto(auto.get(remember));
 
-         
+        remember = remember + 1;
     break;
   case 2:
       
@@ -133,10 +131,20 @@ if(choise1 == 1) {
       GestoreGara gestore = new GestoreGara("paolo bonolis");
       Gara granPrix = new Gara(circuito, maxPits, nGiri, auto, partecipanti, gestore);
       gestore.setGara(granPrix);
+      for (int i = 0; i < auto.size(); i++) {
+            auto.get(i).setGara(granPrix);           
+        }
             
       gestore.start();
       granPrix.start();
       
+      try{
+            granPrix.join();
+        }catch (InterruptedException ex) {
+            System.err.println("Errore nel metodo join()");
+        } 
+      
+      gestore.stopGestore();
       
 
     break;
