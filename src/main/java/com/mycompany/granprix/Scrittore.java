@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.*;
+import java.util.*;
 
 
 public class Scrittore extends Thread{
 
     private String nomeFile;
-    private String dati;
+    private ArrayList<String> dati;
+    private String circuito;
     int check;
     int check2;
     int id;
@@ -68,10 +70,13 @@ try (BufferedWriter br = new BufferedWriter(new FileWriter(nomeFile, true))) {
             Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
             } 
          }
-
-            br.write(dati);
+            br.write("GRAN PREMIO DI " + circuito.toUpperCase() + " CLASSIFICA:");
+            br.write("\n\r");
+        for(int i = 0; i < dati.size(); i++) {
+            br.write(dati.get(i));
             br.write("\n\r");
 
+        }
             br.flush();
             check2++;
         } catch (IOException ex) {
@@ -108,7 +113,11 @@ try (BufferedWriter br = new BufferedWriter(new FileWriter(nomeFile, true))) {
         }
     }
      
-     public void setDati(String dati) {
+     public void setDati(ArrayList<String> dati) {
      this.dati = dati;
+     }
+     
+     public void setCircuito(String circuito) {
+     this.circuito = circuito;
      }
     }
