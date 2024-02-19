@@ -8,15 +8,18 @@ import java.util.logging.Logger;
 import java.io.*;
 
 
-public class Scrittore implements Runnable{
+public class Scrittore extends Thread{
 
-    String nomeFile;
+    private String nomeFile;
+    private String dati;
     int check;
+    int check2;
     int id;
     
     public Scrittore(String nomeFile){
         this.nomeFile = nomeFile;
         this.check = 0;
+        this.check2 = 0; 
         this.id = 1;
         
     }
@@ -24,7 +27,7 @@ public class Scrittore implements Runnable{
     //METODO RUN NON UTILIZZATO, NON UTILIZZO QUESTA CLASSE COME THREAD
     @Override
     public void run() {
-        //scrivi();
+        scriviClassifica();
     }
 
     //METODO PER LA SCRITTURA DA FILE, UTILIZZATO PER L'ISSUE 1
@@ -48,6 +51,29 @@ try (BufferedWriter br = new BufferedWriter(new FileWriter(nomeFile, true))) {
 
             br.flush();
             check++;
+        } catch (IOException ex) {
+            Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                
+        }
+    
+    public void scriviClassifica(){
+try (BufferedWriter br = new BufferedWriter(new FileWriter(nomeFile, true))) {
+            if (check2 == 0) {
+                
+              try (BufferedWriter bc = new BufferedWriter(new FileWriter(nomeFile))) {
+              bc.write("");
+              bc.flush();
+              } catch (IOException ex) {
+            Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
+            } 
+         }
+
+            br.write(dati);
+            br.write("\n\r");
+
+            br.flush();
+            check2++;
         } catch (IOException ex) {
             Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,4 +107,8 @@ try (BufferedWriter br = new BufferedWriter(new FileWriter(nomeFile, true))) {
             Logger.getLogger(Scrittore.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+     
+     public void setDati(String dati) {
+     this.dati = dati;
+     }
     }

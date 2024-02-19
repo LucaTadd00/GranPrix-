@@ -1,8 +1,10 @@
 package com.mycompany.granprix;
 
-import java.io.*;
 import static java.lang.Thread.sleep;
 import java.util.*;
+import java.awt.Robot;
+import java.awt.AWTException;
+
 
 public class Auto extends Thread{
     
@@ -119,12 +121,18 @@ public void run() {
         // Stampa il danneggiamento dell'auto
         
         try {
-            sleep(500);
+            sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         
          clearScreen();
+         
+         try {
+            sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
     if(!running){
     System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " ha concluso la sua gara");
@@ -133,8 +141,15 @@ public void run() {
 
         
 public static void clearScreen() {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
+            try {
+    Robot pressbot = new Robot();
+    pressbot.keyPress(17); // Holds CTRL key.
+    pressbot.keyPress(76); // Holds L key.
+    pressbot.keyRelease(17); // Releases CTRL key.
+    pressbot.keyRelease(76); // Releases L key.
+} catch (AWTException ex) {
+    System.err.println("errore nella pulizia dello schermo");
+}
 
 }
     

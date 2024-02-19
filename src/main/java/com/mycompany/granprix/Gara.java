@@ -66,6 +66,17 @@ public class Gara extends Thread {
         System.out.println(classifica.get(i).Stampa(i));
         }
         
+        ArrayList<Scrittore> scrittori = new ArrayList<>();
+        for (int i = 0; i < classifica.size(); i++) {
+        scrittori.add(new Scrittore("classifica.csv"));
+        scrittori.get(i).setDati(classifica.get(i).Stampa(i));
+        scrittori.get(i).start();
+        try{
+           scrittori.get(i).join();
+        }catch (InterruptedException ex) {
+            System.err.println("Errore nel metodo join()");
+        }
+        }
         }
         
         public int getnGiri() {
