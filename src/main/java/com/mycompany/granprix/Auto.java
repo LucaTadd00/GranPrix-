@@ -44,7 +44,7 @@ public void run() {
     boolean pit = false;
     int npit = 0;
     int giroPit = 0;
-    
+    synchronized(this) {
     while (running) {
         // Controlla se è necessario incrementare il numero di giri
         if (percentuale >= gara.getCircuito().getLunghezza() * giri) {
@@ -57,7 +57,7 @@ public void run() {
             if (!gara.getGestore().getSafetyCar()) {
                 // Controlla se è necessario fare un pit stop
                 if (giri >= giroPit + 2 && npit < gara.getMaxsPits()) {
-                    ran = random.nextInt(70);
+                    ran = random.nextInt(10);
                     if (ran == 1) { 
                         pit = true;
                         npit++;
@@ -79,7 +79,7 @@ public void run() {
                     }
                     
                     // Simula il danneggiamento dell'auto
-                    if (random.nextInt(500) == 1) {
+                    if (random.nextInt(150) == 1) {
                         damage = true;
                         running = false;
                         System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " si è RITIRATO per problemi e ha percorso: " +
@@ -102,7 +102,7 @@ public void run() {
                     System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " è sta facendo il PITSTOP al giro: " + giri);
                     secpit++;
                     try {
-                        sleep(500);
+                        sleep(800);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -121,21 +121,15 @@ public void run() {
         // Stampa il danneggiamento dell'auto
         
         try {
-            sleep(250);
+            sleep(800);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         
-         clearScreen();
-         
-         try {
-            sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
     if(!running){
     System.out.println("L'auto Numero: " + numero + ", con pilota : " + proprietario.getPilota() + " ha concluso la sua gara");
+    }
     }
 }
 

@@ -25,6 +25,8 @@ public class Circuito {
         return lunghezza;
         }
 
-    
+        public String getNazione() {
+        return nazione;
+        }
 
 }

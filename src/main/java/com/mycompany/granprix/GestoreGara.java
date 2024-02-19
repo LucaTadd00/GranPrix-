@@ -3,6 +3,8 @@ package com.mycompany.granprix;
 
 import static java.lang.Thread.sleep;
 import java.util.Random;
+import java.io.*;
+import java.util.*;
 
 /**
  *
@@ -24,19 +26,24 @@ public class GestoreGara extends Thread{
         running = true;
         int problem;
         Random random = new Random();
+        ArrayList<Boolean> tryed = new ArrayList<>();
+        for (int i = 0; i < gara.getnAuto().size(); i++) {
+           tryed.add(false);         
+        }
     while (running) {
      for (int i = 0; i < gara.getnAuto().size(); i++) {
-         if(gara.getnAuto().get(i).getDamage()) {
+         if(gara.getnAuto().get(i).getDamage() && tryed.get(i) == false) {
          safetyCar = true;
        try {
         sleep(10000);
       } catch (InterruptedException e) {
       }
        safetyCar = false;
+       tryed.add(i, true);
          }
      }
         
-    problem = random.nextInt(300);
+    problem = random.nextInt(550);
     if (problem == 1) {
     safetyCar = true;
     try {
