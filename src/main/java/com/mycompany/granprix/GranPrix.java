@@ -15,7 +15,7 @@ public class GranPrix {
     public static void main(String[] args) {
       
 Scanner s = new Scanner(System.in);
-Lettore lettore = new Lettore("output.csv");
+Lettore lettore = new Lettore("classifica.csv");
 Scrittore scrittore = new Scrittore("output.csv");
 ArrayList<Auto> auto = new ArrayList<>();
 ArrayList<Partecipante> partecipanti = new ArrayList<>();
@@ -54,7 +54,7 @@ matrixBuilder();
       System.out.println("Iniziamo con la creazione! ora inserisci le specifiche del GranPrix");
       System.out.println("inserisci il nome del circuito");
       String nCircuito = s.nextLine();
-      System.out.println("inserisci la lunghezza del circuito");
+      System.out.println("inserisci la lunghezza del circuito (in metri)");
       double lCircuito = s.nextDouble();
       s.nextLine();
       System.out.println("inserisci la nazione in cui risiede il circuito");
@@ -71,7 +71,7 @@ matrixBuilder();
       
     break;
   case 2:
-
+      System.out.println(lettore.leggi());
     break;
   case 3:
       System.out.println("disconnessione in corso...");
@@ -97,6 +97,7 @@ if(choise1 == 1) {
          System.out.println("ora scegli un opzione : "); 
          System.out.println("1. aggiungi un pilota e la sua auto al granprix al Gran Prix"); 
          System.out.println("2. inizia la gara"); 
+         System.out.println("3. LOGOUT"); 
                  
          choise = s.nextInt();
          s.nextLine();
@@ -146,10 +147,13 @@ if(choise1 == 1) {
       
       gestore.stopGestore();
       
+      System.out.println("classifica salvata in classifica.csv");
+      
 
     break;
   case 3:
       System.out.println("uscita in corso..."); 
+      choise = 7;
     try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
